@@ -1,26 +1,242 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   Caderno Musical — design tokens
+   Paleta: papel quente (creme), tinta sépia escura, latão discreto.
+   Nada de cores fortes: tudo é dessaturado para leitura longa.
+   ========================================================================== */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --space-section: 2rem;
+  /* Superfícies */
+  --paper: #faf6ee;
+  --paper-raised: #fffdf8;
+  --paper-sunken: #f3ede1;
+
+  /* Tinta */
+  --ink: #221d17;
+  --ink-soft: #4e463b;
+  --ink-muted: #7d7365;
+  --ink-faint: #a89d8c;
+
+  /* Traços */
+  --rule: #e2d9c8;
+  --rule-strong: #cfc3ac;
+
+  /* Latão — acento principal */
+  --brass: #9a7434;
+  --brass-soft: #b08d4d;
+  --brass-wash: #f2e9d6;
+
+  /* Semânticos, deliberadamente suaves */
+  --sage: #56745a;
+  --sage-wash: #e8efe4;
+  --clay: #a2564a;
+  --clay-wash: #f6e6e0;
+  --slate: #3c5566;
+  --slate-wash: #e6edf1;
+
+  --shadow-page: 0 1px 2px rgb(34 29 23 / 0.04), 0 8px 24px -12px rgb(34 29 23 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(34 29 23 / 0.05), 0 16px 40px -20px rgb(34 29 23 / 0.18);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #16130f;
+    --paper-raised: #1e1a15;
+    --paper-sunken: #110e0b;
+
+    --ink: #f2ece1;
+    --ink-soft: #cdc4b5;
+    --ink-muted: #978d7e;
+    --ink-faint: #6d6559;
+
+    --rule: #2e2820;
+    --rule-strong: #423a2f;
+
+    --brass: #cba765;
+    --brass-soft: #ab8a4f;
+    --brass-wash: #29211493;
+
+    --sage: #9dba9f;
+    --sage-wash: #1e281f8f;
+    --clay: #d79a8c;
+    --clay-wash: #2c1d189c;
+    --slate: #9fbdd0;
+    --slate-wash: #1a242b96;
+
+    --shadow-page: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 16px 40px -20px rgb(0 0 0 / 0.7);
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-brass-wash: var(--brass-wash);
+
+  --color-sage: var(--sage);
+  --color-sage-wash: var(--sage-wash);
+  --color-clay: var(--clay);
+  --color-clay-wash: var(--clay-wash);
+  --color-slate: var(--slate);
+  --color-slate-wash: var(--slate-wash);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --shadow-page: var(--shadow-page);
+  --shadow-lift: var(--shadow-lift);
+}
+
+/* ========================================================================== */
+
+* {
+  border-color: var(--rule);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* Grão de papel: duas camadas de gradiente muito suaves, sem imagem. */
+  background-image:
+    radial-gradient(at 12% 0%, color-mix(in oklab, var(--brass) 6%, transparent) 0px, transparent 55%),
+    radial-gradient(at 88% 8%, color-mix(in oklab, var(--slate) 5%, transparent) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--brass) 24%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Numerais tabulares para estatísticas — evita "pular" ao atualizar */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Título de display com o eixo óptico do Fraunces afinado */
+.display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.018em;
+}
+
+/* --------------------------------------------------------------------------
+   Texturas de caderno
+   -------------------------------------------------------------------------- */
+
+/* Linhas de pauta muito discretas — usado em faixas decorativas */
+.staff-texture {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 9px,
+    var(--rule) 9px,
+    var(--rule) 10px
+  );
+}
+
+/* Papel pautado de caderno, para as áreas de anotação */
+.ruled-paper {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 27px,
+    color-mix(in oklab, var(--slate) 16%, transparent) 27px,
+    color-mix(in oklab, var(--slate) 16%, transparent) 28px
+  );
+  background-position: 0 0.35rem;
+  line-height: 28px;
+}
+
+/* Margem vermelha/latão do caderno */
+.notebook-margin {
+  box-shadow: inset 2px 0 0 color-mix(in oklab, var(--clay) 28%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Animações — curtas e discretas
+   -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade {
+  animation: fade 0.25s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Barras de rolagem discretas */
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--rule-strong);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 99px;
+  }
 }
