@@ -18,11 +18,11 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pendingErrors = ready ? Object.keys(state.errors).length : 0;
 
   return (
-    <nav className="flex flex-col gap-6">
+    <nav className="flex flex-col gap-7">
       {NAV.map((group, gi) => (
         <div key={gi}>
           {group.title ? (
-            <p className="mb-2 px-3 text-[0.625rem] font-semibold tracking-[0.14em] text-ink-faint uppercase">
+            <p className="mb-2.5 px-2.5 text-[0.6rem] font-semibold tracking-[0.12em] text-ink-faint uppercase">
               {group.title}
             </p>
           ) : null}
@@ -39,25 +39,25 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "group relative flex items-center gap-2.5 rounded-lg px-3 py-2",
-                      "text-sm transition-colors duration-150",
+                      "group relative flex min-h-9 items-center gap-2.5 rounded-md px-2.5 py-1.5",
+                      "text-[0.8125rem] transition-colors duration-150",
                       active
-                        ? "bg-brass-wash font-semibold text-ink"
-                        : "text-ink-soft hover:bg-paper-sunken hover:text-ink",
+                        ? "bg-paper-raised font-medium text-ink shadow-page"
+                        : "text-ink-muted hover:bg-paper-raised/70 hover:text-ink",
                     )}
                   >
                     {/* Filete de página ativa — discreto, como um marcador. */}
                     <span
                       className={cn(
                         "absolute top-1/2 left-0 h-5 w-[2.5px] -translate-y-1/2 rounded-r-full transition-opacity",
-                        active ? "bg-brass opacity-100" : "opacity-0",
+                        active ? "bg-ink-muted opacity-100" : "opacity-0",
                       )}
                       aria-hidden
                     />
                     <Icon
                       className={cn(
                         "size-4 shrink-0 transition-colors",
-                        active ? "text-brass" : "text-ink-faint group-hover:text-ink-muted",
+                        active ? "text-ink-soft" : "text-ink-faint group-hover:text-ink-muted",
                       )}
                     />
                     <span className="min-w-0 flex-1 truncate">{item.label}</span>

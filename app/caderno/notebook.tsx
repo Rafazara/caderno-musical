@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Link2,
   NotebookPen,
+  Palette,
   Pencil,
   Pin,
   PinOff,
@@ -15,7 +16,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonClass } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
 import { Modal } from "@/components/ui/overlay";
@@ -172,10 +173,8 @@ export function Notebook() {
         title="Meu caderno"
         description="Anotações suas, do jeito que você escreveria à mão. Use etiquetas e ligue cada nota a um fundamento para o conhecimento ficar conectado."
       >
-        <Button variant="brass" onClick={() => setDraft(emptyDraft())}>
-          <Plus />
-          Nova anotação
-        </Button>
+        <Link href="/atelie-de-partitura" className={buttonClass({ variant: "outline" })}><Palette /> Quadro musical</Link>
+        <Button variant="brass" onClick={() => setDraft(emptyDraft())}><Plus /> Nova anotação</Button>
       </SectionHeading>
 
       {storeError ? (

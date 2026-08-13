@@ -17,7 +17,8 @@ function Mark({ className }: { className?: string }) {
         width="30.6"
         height="30.6"
         rx="7.5"
-        fill="var(--ink)"
+        fill="var(--paper-raised)"
+        stroke="var(--rule-strong)"
       />
       {[10, 15, 20].map((y) => (
         <line
@@ -26,7 +27,7 @@ function Mark({ className }: { className?: string }) {
           x2="25"
           y1={y}
           y2={y}
-          stroke="var(--paper)"
+          stroke="var(--ink-faint)"
           strokeWidth="1.1"
           opacity="0.5"
         />
@@ -36,12 +37,12 @@ function Mark({ className }: { className?: string }) {
         cy="20"
         rx="4.3"
         ry="3.1"
-        fill="var(--brass)"
+        fill="var(--ink-soft)"
         transform="rotate(-20 13.5 20)"
       />
       <path
         d="M17.6 19.2V8.6"
-        stroke="var(--brass)"
+        stroke="var(--ink-soft)"
         strokeWidth="1.6"
         strokeLinecap="round"
       />
@@ -56,13 +57,13 @@ export function Brand({ className }: { className?: string }) {
       className={cn("group flex items-center gap-2.5", className)}
       aria-label="Caderno Musical — ir para o início"
     >
-      <Mark className="transition-transform duration-300 group-hover:-rotate-3" />
+      <Mark className="transition-opacity duration-200 group-hover:opacity-75" />
       <span className="min-w-0">
         <span className="display block text-[0.9375rem] leading-tight font-semibold tracking-tight text-ink">
           Caderno Musical
         </span>
         <span className="block text-[0.6875rem] leading-tight tracking-[0.08em] text-ink-faint uppercase">
-          Teoria · Volume I
+          Workspace de estudo
         </span>
       </span>
     </Link>

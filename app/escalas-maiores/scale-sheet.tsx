@@ -68,7 +68,7 @@ export function ScaleSheet({ entry, practiced }: { entry: ScaleEntry; practiced?
 
         {details ? <div className="animate-rise grid gap-2 border-t border-rule pt-4 sm:grid-cols-4">{scale.slice(0, 7).map((note, index) => <div key={noteName(note)} className="rounded-lg bg-paper-sunken/55 p-3"><p className="font-mono text-xs text-brass">{DEGREE_ROMAN[index]}</p><p className="display mt-1 font-semibold">{noteName(note)}</p><p className="mt-0.5 text-xs capitalize text-ink-muted">{DEGREE_NAME[index]}</p></div>)}</div> : null}
 
-        <div className="rounded-xl border border-brass-soft/30 bg-brass-wash p-4 sm:p-5">
+        <div className="rounded-xl bg-paper-sunken/55 p-4 sm:p-6">
           <div className="flex items-start justify-between gap-3"><div><p className="display font-semibold text-ink">Construir escala</p><p className="mt-1 text-xs text-ink-muted">Avance pela fórmula e veja cada distância acontecer.</p></div><Badge tone="brass">Passo {step + 1}/8</Badge></div>
           <div className="mt-5 flex items-center gap-3"><span className="display text-3xl font-semibold text-brass">{noteName(scale[step])}</span>{step < 7 ? <><ChevronRight className="text-ink-faint" /><span className="text-sm"><strong>{MAJOR_FORMULA[step]}</strong> · {STEP_LABEL[MAJOR_FORMULA[step]]}</span></> : <span className="text-sm text-ink-muted">oitava concluída</span>}</div>
           <p className="mt-3 min-h-10 text-sm leading-relaxed text-ink-soft">{step === 0 ? explainDegree(entry, 0) : explainDegree(entry, step)}</p>

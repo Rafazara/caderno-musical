@@ -5,6 +5,7 @@ import {
   Home,
   Library,
   FlaskConical,
+  Palette,
   LineChart,
   Music4,
   NotebookPen,
@@ -71,6 +72,12 @@ export const NAV: NavGroup[] = [
         label: "Laboratório da nota",
         blurb: "Conectar pentagrama, teclado, nome e som.",
         icon: FlaskConical,
+      },
+      {
+        href: "/atelie-de-partitura",
+        label: "Ateliê de Partitura",
+        blurb: "Criar quadros visuais com pautas, notas e explicações.",
+        icon: Palette,
       },
       {
         href: "/fundamentos",

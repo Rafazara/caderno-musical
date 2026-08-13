@@ -24,21 +24,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const current = findNavItem(pathname);
 
   return (
-    <div className="flex min-h-dvh flex-col lg:grid lg:grid-cols-[16.5rem_minmax(0,1fr)]">
+    <div className="flex min-h-dvh flex-col lg:grid lg:grid-cols-[15.5rem_minmax(0,1fr)]">
       {/* Lateral — desktop */}
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-rule bg-paper-raised/60 lg:flex">
-        <div className="px-5 py-6">
+      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-rule/70 bg-paper-sunken/45 lg:flex">
+        <div className="px-5 pt-6 pb-8">
           <Brand />
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-6">
+        <div className="min-h-0 flex-1 overflow-y-auto px-2.5 pb-8">
           <NavLinks />
         </div>
-        <div className="staff-texture h-10 shrink-0 opacity-40" aria-hidden />
+        <div className="mx-5 mb-5 border-t border-rule/70 pt-4 text-[0.625rem] tracking-wide text-ink-faint">Estudo salvo neste navegador</div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Barra superior — mobile */}
-        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-rule bg-paper/85 px-4 py-3 backdrop-blur-md lg:hidden">
+        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-rule/70 bg-paper/92 px-4 py-2.5 backdrop-blur-md lg:hidden">
           <Button
             variant="ghost"
             size="icon"
@@ -52,12 +52,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </span>
         </header>
 
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-7 sm:px-6 sm:py-10 lg:px-10 lg:py-12">
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-7 sm:py-12 lg:px-12 lg:py-16">
           {children}
         </main>
 
-        <footer className="mx-auto w-full max-w-5xl px-4 pb-8 sm:px-6 lg:px-10">
-          <p className="border-t border-rule pt-5 text-xs text-ink-faint">
+        <footer className="mx-auto w-full max-w-5xl px-4 pb-10 sm:px-7 lg:px-12">
+          <p className="text-[0.6875rem] text-ink-faint">
             Caderno Musical · seus dados ficam salvos apenas neste navegador.
           </p>
         </footer>

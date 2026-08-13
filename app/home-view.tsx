@@ -42,13 +42,13 @@ export function HomeView() {
   const difficult = Object.values(state.errors).sort((a, b) => b.misses - a.misses).slice(0, 2);
 
   return (
-    <div className="flex flex-col gap-9">
+    <div className="flex flex-col gap-12">
       {/* Cabeçalho de abertura */}
       <header>
-        <p className="text-[0.6875rem] font-semibold tracking-[0.14em] text-brass uppercase">
+        <p className="text-[0.625rem] font-semibold tracking-[0.14em] text-ink-faint uppercase">
           {hello ?? "Olá"}
         </p>
-        <h1 className="display mt-1.5 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="display mt-2 text-4xl leading-tight font-semibold tracking-tight text-ink sm:text-5xl">
           Bom estudo.
         </h1>
         <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ink-muted">
@@ -61,10 +61,10 @@ export function HomeView() {
       {difficult.length ? <section className="rounded-xl border border-brass-soft/30 bg-brass-wash px-5 py-4 sm:flex sm:items-center sm:justify-between sm:gap-6"><div className="flex gap-3"><Sparkles className="mt-0.5 size-4 shrink-0 text-brass" /><div><p className="display font-semibold text-ink">Prática sugerida</p><p className="mt-1 text-sm text-ink-muted">Vale revisar {difficult.map((item) => labelForItem(item.module, item.itemKey)).join(" e ")}. São os pontos que mais pediram atenção recentemente.</p></div></div><Link href="/revisar" className={buttonClass({ variant: "brass", size: "sm", className: "mt-3 sm:mt-0" })}>Praticar agora <ArrowRight /></Link></section> : null}
 
       {/* Painel de estudo */}
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden border-0 bg-paper-raised/65">
         <div className="staff-texture h-1.5 opacity-50" aria-hidden />
         <CardContent className="pt-6">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-4 sm:divide-x sm:divide-rule/70 [&>*]:sm:pl-6 [&>*:first-child]:sm:pl-0">
             <StatTile
               label="Sequência"
               value={streak}
@@ -181,7 +181,7 @@ export function HomeView() {
         <h2 className="mb-4 text-[0.6875rem] font-semibold tracking-[0.14em] text-ink-muted uppercase">
           Áreas do caderno
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="divide-y divide-rule/70 border-y border-rule/70">
           {CARDS.map((item) => {
             const Icon = item.icon;
             const isReview = item.href === "/revisar";
@@ -192,12 +192,10 @@ export function HomeView() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "group flex items-start gap-3.5 rounded-xl border border-rule bg-paper-raised p-4",
-                  "shadow-page transition-all duration-200",
-                  "hover:-translate-y-0.5 hover:border-brass-soft hover:shadow-lift",
+                  "group flex items-start gap-3.5 px-1 py-4 transition-colors duration-150 hover:bg-paper-raised/65 sm:px-3",
                 )}
               >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brass-wash text-brass transition-colors group-hover:bg-brass group-hover:text-white">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-paper-sunken text-ink-muted transition-colors group-hover:text-ink">
                   <Icon className="size-4" />
                 </span>
                 <span className="min-w-0 flex-1">

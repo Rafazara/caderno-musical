@@ -41,18 +41,18 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <header className={cn("flex flex-wrap items-end justify-between gap-4", className)}>
+    <header className={cn("flex flex-wrap items-end justify-between gap-5 border-b border-rule/60 pb-6", className)}>
       <div className="min-w-0">
         {eyebrow ? (
-          <p className="mb-1.5 text-[0.6875rem] font-semibold tracking-[0.14em] text-brass uppercase">
+          <p className="mb-2 text-[0.625rem] font-semibold tracking-[0.13em] text-ink-faint uppercase">
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="display text-2xl font-semibold text-balance text-ink sm:text-3xl">
+        <h1 className="display text-[1.75rem] leading-tight font-semibold text-balance text-ink sm:text-[2.15rem]">
           {title}
         </h1>
         {description ? (
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">{description}</p>
+          <p className="mt-2.5 max-w-2xl text-[0.875rem] leading-6 text-ink-muted">{description}</p>
         ) : null}
       </div>
       {children ? <div className="flex shrink-0 items-center gap-2">{children}</div> : null}
@@ -113,9 +113,9 @@ export function EmptyState({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-rule-strong bg-paper-raised/50 px-6 py-14 text-center">
+    <div className="flex flex-col items-center justify-center rounded-xl bg-paper-sunken/38 px-6 py-16 text-center">
       {icon ? (
-        <div className="mb-4 flex size-11 items-center justify-center rounded-full bg-brass-wash text-brass [&_svg]:size-5">
+        <div className="mb-5 flex size-10 items-center justify-center rounded-lg border border-rule bg-paper-raised text-ink-muted [&_svg]:size-4.5">
           {icon}
         </div>
       ) : null}

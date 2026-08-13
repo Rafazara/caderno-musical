@@ -92,11 +92,11 @@ export function LineReadingPractice() {
         </p><Button variant="ghost" size="sm" onClick={() => setFocusMode((value) => !value)}>{focusMode ? <Minimize2 /> : <Focus />}{focusMode ? "Sair do foco" : "Modo foco"}</Button></div>
       </div>
 
-      <Card className="overflow-hidden border-rule-strong shadow-lift">
+      <Card className="overflow-hidden border-rule/70 bg-paper-raised">
         <CardHeader className="border-b border-rule bg-paper-sunken/40 py-4">
           <div className="flex items-center justify-between gap-3">
             <div><p className="display font-semibold text-ink">Leia da esquerda para a direita</p><p className="text-xs text-ink-faint">Escolha cada nome; a correção acontece somente no final.</p></div>
-            <span className="rounded-full bg-paper-sunken px-2.5 py-1 text-xs text-ink-faint">Teclas 1–7 também respondem</span>
+            <span className="text-xs text-ink-faint">Teclas 1–7 também respondem</span>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-5 px-3 pt-5 sm:px-6 sm:pt-6">
@@ -107,7 +107,7 @@ export function LineReadingPractice() {
             <div className="rounded-lg border border-rule bg-paper p-3">
               <p className="mb-2 text-center text-xs text-ink-faint">Nota {active + 1} de {notes.length}</p>
               <div className="grid grid-cols-7 gap-1" role="group" aria-label={`Resposta da nota ${active + 1}`}>
-                {NATURALS_PT.map((name, index) => <button key={name} type="button" onClick={() => choose(name)} className={cn("rounded-md border px-1 py-2 text-sm font-semibold transition-colors", answers[active] === name ? "border-brass bg-brass text-white" : "border-rule-strong bg-paper-raised text-ink hover:border-brass")}>{name}<span className="ml-1 hidden text-[0.6rem] opacity-65 lg:inline">{index + 1}</span></button>)}
+                {NATURALS_PT.map((name, index) => <button key={name} type="button" onClick={() => choose(name)} className={cn("min-h-11 rounded-md border px-1 py-2 text-sm font-medium transition-colors", answers[active] === name ? "border-ink bg-ink text-paper" : "border-rule bg-paper-raised text-ink hover:bg-paper-sunken")}>{name}<span className="ml-1 hidden text-[0.6rem] opacity-65 lg:inline">{index + 1}</span></button>)}
               </div>
             </div>
           ) : (

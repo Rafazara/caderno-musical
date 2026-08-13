@@ -87,7 +87,7 @@ export function ScalesStudio() {
                 </p>
               </Prose>
 
-              <div className="rounded-xl border border-brass-soft/30 bg-brass-wash p-5">
+              <div className="rounded-xl bg-paper-sunken/55 p-5 sm:p-7">
                 <p className="mb-4 text-center text-[0.6875rem] font-semibold tracking-[0.14em] text-brass uppercase">
                   A fórmula da escala maior
                 </p>

@@ -7,10 +7,10 @@ const variants = {
     "bg-ink text-paper hover:bg-ink-soft active:bg-ink border border-transparent shadow-page",
   /** Ação de destaque — latão. */
   brass:
-    "bg-brass text-white hover:bg-brass-soft active:bg-brass border border-transparent shadow-page",
+    "bg-ink text-paper hover:bg-ink-soft active:bg-ink border border-transparent",
   /** Padrão da interface — cartão de papel. */
   outline:
-    "bg-paper-raised text-ink border border-rule-strong hover:border-brass-soft hover:bg-brass-wash",
+    "bg-paper-raised text-ink border border-rule hover:border-rule-strong hover:bg-paper-sunken/70",
   /** Terciária, sem moldura. */
   ghost:
     "bg-transparent text-ink-soft border border-transparent hover:bg-paper-sunken hover:text-ink",
@@ -41,8 +41,8 @@ export function buttonClass({
 } = {}) {
   return cn(
     "inline-flex shrink-0 items-center justify-center font-medium",
-    "transition-[background-color,border-color,color,box-shadow,transform] duration-150",
-    "active:translate-y-px disabled:pointer-events-none disabled:opacity-45",
+    "transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out",
+    "active:translate-y-px disabled:pointer-events-none disabled:opacity-45 focus-visible:outline-offset-2",
     "[&_svg]:size-4 [&_svg]:shrink-0",
     sizes[size],
     variants[variant],

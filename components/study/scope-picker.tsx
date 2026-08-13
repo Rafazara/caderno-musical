@@ -40,11 +40,11 @@ export function ScopePicker({
               aria-pressed={selected}
               onClick={() => onChange(option.id)}
               className={cn(
-                "rounded-lg border px-3 py-1.5 text-[0.8125rem] font-medium transition-colors",
+                "rounded-md border px-3 py-1.5 text-[0.8125rem] font-medium transition-colors",
                 "disabled:cursor-not-allowed disabled:opacity-40",
                 selected
-                  ? "border-brass bg-brass text-white"
-                  : "border-rule-strong bg-paper-raised text-ink-soft hover:border-brass-soft hover:bg-brass-wash hover:text-ink",
+                  ? "border-ink bg-ink text-paper"
+                  : "border-rule bg-transparent text-ink-muted hover:bg-paper-raised hover:text-ink",
               )}
             >
               {option.label}

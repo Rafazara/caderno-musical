@@ -2,9 +2,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const base =
-  "w-full rounded-lg border border-rule-strong bg-paper-raised text-ink " +
+  "w-full rounded-md border border-rule bg-paper-raised text-ink shadow-page " +
   "placeholder:text-ink-faint transition-colors " +
-  "hover:border-brass-soft/60 focus:border-brass focus:outline-none " +
+  "hover:border-rule-strong focus:border-ink-muted focus:outline-none " +
   "disabled:opacity-50";
 
 export function Input({ className, ...props }: React.ComponentProps<"input">) {
