@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { AppShell } from "@/components/layout/app-shell";
 import { StudyProvider } from "@/lib/study/provider";
+import { AuthProvider } from "@/lib/auth/provider";
+import { CloudSyncProvider } from "@/lib/sync/provider";
 import "./globals.css";
 
 /**
@@ -47,9 +49,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <StudyProvider>
-          <AppShell>{children}</AppShell>
-        </StudyProvider>
+        <AuthProvider>
+          <CloudSyncProvider>
+            <StudyProvider>
+              <AppShell>{children}</AppShell>
+            </StudyProvider>
+          </CloudSyncProvider>
+        </AuthProvider>
       </body>
     </html>
   );

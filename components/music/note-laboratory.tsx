@@ -22,9 +22,9 @@ export function NoteLaboratory() {
       {READING_RANGE.map((note, index) => <button key={noteId(note)} role="option" aria-selected={index === selected} onClick={() => setSelected(index)} className={cn("min-h-10 shrink-0 rounded-md border px-3 text-sm font-medium transition-colors", index === selected ? "border-ink bg-ink text-paper" : "border-rule bg-transparent text-ink-muted hover:bg-paper-raised hover:text-ink")}>{noteName(note)}<span className="ml-0.5 text-[0.65rem] opacity-70">{note.octave}</span></button>)}
     </div>
 
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden rounded-none border-x-0 bg-transparent">
       <div className="grid lg:grid-cols-[1.05fr_.95fr]">
-        <div className="flex flex-col items-center justify-center border-b border-rule/70 bg-paper-raised p-7 lg:border-r lg:border-b-0 lg:p-12">
+        <div className="flex flex-col items-center justify-center border-b border-rule/70 p-7 lg:border-r lg:border-b-0 lg:p-12">
           <SingleNoteStaff note={current} state="query" emphasize className="max-w-md" />
           <div className="mt-4 flex items-center gap-3">
             <Button variant="ghost" size="icon" disabled={selected === 0} onClick={() => setSelected((i) => i - 1)} aria-label="Nota anterior"><ArrowLeft /></Button>
@@ -50,4 +50,4 @@ export function NoteLaboratory() {
 }
 
 function Fact({ label, value }: { label: string; value: string }) { return <div><dt className="text-[0.625rem] font-medium tracking-wide text-ink-faint uppercase">{label}</dt><dd className="display mt-1 text-[1.05rem] font-medium text-ink">{value}</dd></div>; }
-function Relation({ label, note, semitones }: { label: string; note: Note; semitones: number }) { return <div className="rounded-lg bg-paper-sunken/60 p-3"><p className="text-xs text-ink-faint">{label}</p><p className="display mt-1 text-lg font-semibold">{noteName(note)}{note.octave}</p><p className="text-xs text-ink-muted">{semitones} {semitones === 1 ? "semitom" : "semitons"}</p></div>; }
+function Relation({ label, note, semitones }: { label: string; note: Note; semitones: number }) { return <div className="border-l border-rule pl-3"><p className="text-xs text-ink-faint">{label}</p><p className="display mt-1 text-lg font-semibold">{noteName(note)}{note.octave}</p><p className="text-xs text-ink-muted">{semitones} {semitones === 1 ? "semitom" : "semitons"}</p></div>; }

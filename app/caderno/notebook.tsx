@@ -27,6 +27,8 @@ import { NO_NOTES, type NotebookNote } from "@/lib/storage/types";
 import { usePersistentState } from "@/lib/storage/use-persistent-state";
 import { useTrackTopic } from "@/lib/study/provider";
 import { cn, formatRelative, uid } from "@/lib/utils";
+import { NO_EVENTS } from "@/lib/agenda/types";
+import { peek, write } from "@/lib/storage/store";
 
 type Draft = {
   id: string | null;
@@ -137,10 +139,11 @@ export function Notebook() {
         ),
       );
     } else {
+      const noteId = uid();
       setNotes((prev) => [
         ...prev,
         {
-          id: uid(),
+          id: noteId,
           title: d.title.trim(),
           subject: d.subject.trim(),
           body: d.body,
@@ -151,6 +154,15 @@ export function Notebook() {
           pinned: false,
         },
       ]);
+      const agendaId = params.get("agenda");
+      if (agendaId) {
+        const agenda = peek(KEYS.agenda, NO_EVENTS);
+        write(KEYS.agenda, agenda.map((event) => event.id === agendaId ? {
+          ...event,
+          resources: [...event.resources, { kind: "note" as const, id: noteId, label: d.title.trim() }],
+          updatedAt: now,
+        } : event));
+      }
     }
     setDraft(null);
   }
@@ -337,7 +349,7 @@ function NoteCard({
   const linked = note.links.map(findFundamental).filter((f): f is NonNullable<typeof f> => Boolean(f));
 
   return (
-    <Card className={cn("flex flex-col", note.pinned && "border-brass-soft/50")}>
+    <Card className={cn("flex flex-col rounded-none border-x-0 bg-transparent", note.pinned && "border-l-2 border-l-brass-soft")}>
       <CardContent className="flex flex-1 flex-col gap-3 pt-5">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">

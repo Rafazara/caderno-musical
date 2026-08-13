@@ -135,7 +135,7 @@ export function MusicCanvas({ board, tool, snap, onChange }: { board: AtelierBoa
     changed(board.elements.map((element) => element.id === staff.id && element.type === "staff" ? { ...element, notes: [...element.notes, entry].sort((a, b) => a.x - b.x) } : element), { previous: board });
   }
 
-  return <div className="relative overflow-hidden rounded-xl border border-rule bg-paper-sunken/30">
+  return <div className="relative overflow-hidden border border-rule/70 bg-paper-raised shadow-page">
     <div className="absolute top-3 right-3 z-30 flex items-center gap-1 rounded-lg border border-rule bg-paper-raised/95 p-1 shadow-page backdrop-blur"><Button size="icon" variant="ghost" onClick={() => setZoom((value) => Math.max(.5, value - .1))} aria-label="Diminuir zoom"><Minus /></Button><span className="tabular w-12 text-center text-xs text-ink-muted">{Math.round(zoom * 100)}%</span><Button size="icon" variant="ghost" onClick={() => setZoom((value) => Math.min(2, value + .1))} aria-label="Aumentar zoom"><Plus /></Button></div>
     <div className={cn("relative h-[min(68vh,680px)] min-h-[34rem] overflow-hidden", (tool === "pan" || spaceDown) ? "cursor-grab active:cursor-grabbing" : "cursor-default")}>
       <div data-canvas className="atelier-canvas absolute left-0 top-0 h-[680px] w-[1100px] origin-top-left bg-paper-raised touch-none" style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }} onPointerDown={canvasDown} onPointerMove={pointerMove} onPointerUp={pointerUp} role="application" aria-label="Quadro musical">

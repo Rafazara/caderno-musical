@@ -109,4 +109,6 @@ export type MaterialItem = {
   /** Conteúdo em data URL (base64). */
   dataUrl: string;
   createdAt: number;
+  /** Ausente em registros antigos; nesse caso `createdAt` é o fallback. */
+  updatedAt?: number;
 };

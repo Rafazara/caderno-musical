@@ -24,7 +24,7 @@ export function ScaleSheet({ entry, practiced }: { entry: ScaleEntry; practiced?
   const sig = keySignature(entry.tonic);
 
   return (
-    <Card>
+    <Card className="rounded-none border-x-0 bg-transparent">
       <CardHeader className="flex-row items-start justify-between gap-3">
         <div className="min-w-0">
           <CardTitle>{entry.label}</CardTitle>
@@ -54,7 +54,7 @@ export function ScaleSheet({ entry, practiced }: { entry: ScaleEntry; practiced?
 
         <ScaleStrip slots={scale.map((n) => ({ name: noteName(n) }))} />
 
-        <div className="mx-auto w-full max-w-xl rounded-xl bg-paper-sunken/45 p-3 sm:p-5">
+        <div className="mx-auto w-full max-w-xl border-y border-rule/60 py-4">
           <Keyboard marks={scale.map((note, index) => ({ note, tone: index === 0 || index === 7 ? "a" : "b", badge: index === 7 ? "I" : DEGREE_ROMAN[index] }))} />
         </div>
 
@@ -68,7 +68,7 @@ export function ScaleSheet({ entry, practiced }: { entry: ScaleEntry; practiced?
 
         {details ? <div className="animate-rise grid gap-2 border-t border-rule pt-4 sm:grid-cols-4">{scale.slice(0, 7).map((note, index) => <div key={noteName(note)} className="rounded-lg bg-paper-sunken/55 p-3"><p className="font-mono text-xs text-brass">{DEGREE_ROMAN[index]}</p><p className="display mt-1 font-semibold">{noteName(note)}</p><p className="mt-0.5 text-xs capitalize text-ink-muted">{DEGREE_NAME[index]}</p></div>)}</div> : null}
 
-        <div className="rounded-xl bg-paper-sunken/55 p-4 sm:p-6">
+        <div className="border-l border-brass-soft/50 bg-paper-sunken/30 p-4 sm:p-6">
           <div className="flex items-start justify-between gap-3"><div><p className="display font-semibold text-ink">Construir escala</p><p className="mt-1 text-xs text-ink-muted">Avance pela fórmula e veja cada distância acontecer.</p></div><Badge tone="brass">Passo {step + 1}/8</Badge></div>
           <div className="mt-5 flex items-center gap-3"><span className="display text-3xl font-semibold text-brass">{noteName(scale[step])}</span>{step < 7 ? <><ChevronRight className="text-ink-faint" /><span className="text-sm"><strong>{MAJOR_FORMULA[step]}</strong> · {STEP_LABEL[MAJOR_FORMULA[step]]}</span></> : <span className="text-sm text-ink-muted">oitava concluída</span>}</div>
           <p className="mt-3 min-h-10 text-sm leading-relaxed text-ink-soft">{step === 0 ? explainDegree(entry, 0) : explainDegree(entry, step)}</p>

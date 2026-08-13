@@ -8,6 +8,7 @@ export const KEYS = {
   notebook: `${PREFIX}:notebook`,
   material: `${PREFIX}:material`,
   atelier: `${PREFIX}:atelier`,
+  agenda: `${PREFIX}:agenda`,
 } as const;
 
 export function formatBytes(bytes: number): string {

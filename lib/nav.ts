@@ -10,6 +10,7 @@ import {
   Music4,
   NotebookPen,
   RotateCcw,
+  CalendarDays,
   type LucideIcon,
 } from "lucide-react";
 
@@ -67,6 +68,12 @@ export const NAV: NavGroup[] = [
   {
     title: "Explorar & registrar",
     items: [
+      {
+        href: "/agenda",
+        label: "Agenda",
+        blurb: "Aulas, preparação e sua jornada de aprendizado.",
+        icon: CalendarDays,
+      },
       {
         href: "/laboratorio-da-nota",
         label: "Laboratório da nota",

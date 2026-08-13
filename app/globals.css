@@ -12,13 +12,13 @@
   --radius-lg: 0.75rem;
   --space-section: 2.5rem;
   /* Superfícies */
-  --paper: #f7f5f0;
-  --paper-raised: #fbfaf7;
-  --paper-sunken: #efede7;
+  --paper: #f8f6f1;
+  --paper-raised: #fcfbf8;
+  --paper-sunken: #f0eee8;
 
   /* Tinta */
-  --ink: #272521;
-  --ink-soft: #504d47;
+  --ink: #292722;
+  --ink-soft: #514e47;
   --ink-muted: #77736b;
   --ink-faint: #9c978d;
 
@@ -27,7 +27,7 @@
   --rule-strong: #d2cdc2;
 
   /* Latão — acento principal */
-  --brass: #806842;
+  --brass: #79613d;
   --brass-soft: #9b835b;
   --brass-wash: #eee9df;
 
@@ -120,7 +120,14 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   letter-spacing: -0.006em;
+  text-rendering: optimizeLegibility;
 }
+
+/* Escala tipográfica editorial: títulos falam como livro; controles, como ferramenta. */
+.type-page { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -.035em; }
+.type-section { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.2; letter-spacing: -.02em; }
+.type-label { font-size: .625rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.type-technical { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
 
 ::selection {
   background-color: color-mix(in oklab, var(--brass) 24%, transparent);

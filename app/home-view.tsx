@@ -14,6 +14,7 @@ import { currentStreak, useStudy } from "@/lib/study/provider";
 import { overview, recentModules } from "@/lib/study/stats";
 import { cn, formatRelative, plural } from "@/lib/utils";
 import { labelForItem } from "@/lib/study/generators";
+import { NextLesson } from "@/components/home/next-lesson";
 
 /** Cartões de acesso: tudo menos a própria home. */
 const CARDS = NAV.flatMap((g) => g.items).filter((i) => i.href !== "/");
@@ -58,10 +59,12 @@ export function HomeView() {
         </p>
       </header>
 
+      <NextLesson />
+
       {difficult.length ? <section className="rounded-xl border border-brass-soft/30 bg-brass-wash px-5 py-4 sm:flex sm:items-center sm:justify-between sm:gap-6"><div className="flex gap-3"><Sparkles className="mt-0.5 size-4 shrink-0 text-brass" /><div><p className="display font-semibold text-ink">Prática sugerida</p><p className="mt-1 text-sm text-ink-muted">Vale revisar {difficult.map((item) => labelForItem(item.module, item.itemKey)).join(" e ")}. São os pontos que mais pediram atenção recentemente.</p></div></div><Link href="/revisar" className={buttonClass({ variant: "brass", size: "sm", className: "mt-3 sm:mt-0" })}>Praticar agora <ArrowRight /></Link></section> : null}
 
       {/* Painel de estudo */}
-      <Card className="overflow-hidden border-0 bg-paper-raised/65">
+      <Card className="overflow-hidden border-x-0 border-rule/70 bg-transparent">
         <div className="staff-texture h-1.5 opacity-50" aria-hidden />
         <CardContent className="pt-6">
           <div className="grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-4 sm:divide-x sm:divide-rule/70 [&>*]:sm:pl-6 [&>*:first-child]:sm:pl-0">
@@ -144,7 +147,7 @@ export function HomeView() {
 
       <section>
         <h2 className="mb-4 text-[0.6875rem] font-semibold tracking-[0.14em] text-ink-muted uppercase">Seu conhecimento</h2>
-        <div className="grid gap-px overflow-hidden rounded-xl border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden border-y border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
           {[{ label: "Leitura de notas", href: "/leitura-de-notas", value: stats.byModule.leitura }, { label: "Escalas maiores", href: "/escalas-maiores", value: stats.byModule.escalas }, { label: "Tom e semitom", href: "/tom-e-semitom", value: stats.byModule.intervalos }, { label: "Fundamentos", href: "/fundamentos", value: null }].map((item) => <Link key={item.href} href={item.href} className="group bg-paper-raised p-4 transition-colors hover:bg-brass-wash"><BookOpen className="size-4 text-brass" /><p className="display mt-3 font-semibold text-ink">{item.label}</p><p className="mt-1 text-xs text-ink-faint">{item.value && item.value.total ? `${item.value.accuracy}% · ${item.value.total} respostas` : "Explorar conteúdo"}</p></Link>)}
         </div>
       </section>
@@ -162,7 +165,7 @@ export function HomeView() {
                 <Link
                   key={module}
                   href={MODULE_HREF[module]}
-                  className="group flex items-center gap-3 rounded-lg border border-rule bg-paper-raised px-3.5 py-2.5 transition-colors hover:border-brass-soft hover:bg-brass-wash"
+                  className="group flex items-center gap-3 border-b border-rule px-1 py-2.5 transition-colors hover:text-brass"
                 >
                   <span className="text-sm font-medium text-ink">{MODULE_LABEL[module]}</span>
                   <span className="tabular text-xs text-ink-faint">

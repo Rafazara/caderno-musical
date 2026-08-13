@@ -79,10 +79,13 @@ function isQuotaError(err: unknown): boolean {
   );
 }
 
-export function write<T>(key: string, data: T): void {
+const updatedKey = (key: string) => `${key}:updated-at`;
+
+export function write<T>(key: string, data: T, updatedAt = Date.now()): void {
   const raw = JSON.stringify({ version: STORE_VERSION, data });
   try {
     window.localStorage.setItem(key, raw);
+    window.localStorage.setItem(updatedKey(key), String(updatedAt));
   } catch (err) {
     if (isQuotaError(err)) throw new StorageFullError();
     throw err;
@@ -90,6 +93,12 @@ export function write<T>(key: string, data: T): void {
   // Semeia o cache com o valor já em mãos, evitando reinterpretar o JSON.
   snapshots.set(key, { raw, value: data });
   notifyAll();
+}
+
+/** Relógio de alteração usado apenas para resolver conflitos entre dispositivos. */
+export function getLocalUpdatedAt(key: string): number {
+  const value = Number(window.localStorage.getItem(updatedKey(key)));
+  return Number.isFinite(value) ? value : 0;
 }
 
 /** Lê o valor atual fora da renderização (para atualizações funcionais). */

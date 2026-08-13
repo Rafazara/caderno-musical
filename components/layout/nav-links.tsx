@@ -18,15 +18,15 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pendingErrors = ready ? Object.keys(state.errors).length : 0;
 
   return (
-    <nav className="flex flex-col gap-7">
+    <nav className="flex flex-col gap-8">
       {NAV.map((group, gi) => (
         <div key={gi}>
           {group.title ? (
-            <p className="mb-2.5 px-2.5 text-[0.6rem] font-semibold tracking-[0.12em] text-ink-faint uppercase">
+            <p className="mb-3 px-3 text-[0.575rem] font-semibold tracking-[0.16em] text-ink-faint uppercase">
               {group.title}
             </p>
           ) : null}
-          <ul className="flex flex-col gap-0.5">
+          <ul className="flex flex-col">
             {group.items.map((item) => {
               const active = isActive(pathname, item.href);
               const Icon = item.icon;
@@ -39,18 +39,18 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "group relative flex min-h-9 items-center gap-2.5 rounded-md px-2.5 py-1.5",
+                      "group relative flex min-h-9 items-center gap-2.5 px-3 py-1.5",
                       "text-[0.8125rem] transition-colors duration-150",
                       active
-                        ? "bg-paper-raised font-medium text-ink shadow-page"
-                        : "text-ink-muted hover:bg-paper-raised/70 hover:text-ink",
+                        ? "font-semibold text-ink"
+                        : "text-ink-muted hover:text-ink",
                     )}
                   >
                     {/* Filete de página ativa — discreto, como um marcador. */}
                     <span
                       className={cn(
-                        "absolute top-1/2 left-0 h-5 w-[2.5px] -translate-y-1/2 rounded-r-full transition-opacity",
-                        active ? "bg-ink-muted opacity-100" : "opacity-0",
+                        "absolute top-1/2 left-0 h-4 w-px -translate-y-1/2 transition-opacity",
+                        active ? "bg-brass opacity-100" : "opacity-0",
                       )}
                       aria-hidden
                     />

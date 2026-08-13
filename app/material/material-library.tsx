@@ -48,7 +48,9 @@ export function MaterialLibrary() {
   }
 
   function updateNotes(id: string, notes: string) {
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, notes } : i)));
+    setItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, notes, updatedAt: Date.now() } : i)),
+    );
   }
 
   function remove(id: string) {
@@ -192,7 +194,7 @@ function MaterialCard({
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden rounded-none border-x-0 bg-transparent">
       <div className="grid lg:grid-cols-[1.15fr_1fr]">
         {/* O material */}
         <div className="relative border-b border-rule bg-paper-sunken/60 lg:border-r lg:border-b-0">
@@ -350,6 +352,7 @@ function AddMaterialModal({
 
   function submit() {
     if (!file || !title.trim()) return;
+    const now = Date.now();
     onAdd({
       id: uid(),
       title: title.trim(),
@@ -360,7 +363,8 @@ function AddMaterialModal({
       fileType: file.fileType,
       fileSize: file.fileSize,
       dataUrl: file.dataUrl,
-      createdAt: Date.now(),
+      createdAt: now,
+      updatedAt: now,
     });
   }
 
