@@ -126,6 +126,8 @@ function FeedbackPanel({
 
           <p className="mt-2 text-sm leading-relaxed text-ink-soft">{explanation.reason}</p>
 
+          {!correct ? <details className="mt-3 border-t border-ink/8 pt-3"><summary className="cursor-pointer text-sm font-semibold text-ink">Entender meu erro</summary><div className="mt-3"><QuestionVisualView visual={question.visual} revealed correct className="mb-3"/><p className="text-sm leading-relaxed text-ink-soft">Você respondeu <strong>{given}</strong>. A resposta correta é <strong>{question.answer}</strong>. {explanation.reason}</p></div></details> : null}
+
           {explanation.tip ? (
             <p className="mt-3 flex items-start gap-2 border-t border-ink/8 pt-3 text-sm leading-relaxed text-ink-soft">
               <Lightbulb className="mt-0.5 size-4 shrink-0 text-brass" />

@@ -6,8 +6,9 @@ import { Staff } from "@/components/music/staff";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScopePicker } from "@/components/study/scope-picker";
+import { NoteCompare } from "@/components/pedagogy/note-compare";
 import { playNote, playNoteLine } from "@/lib/music/audio";
-import { LETTER_PT, NATURALS_PT, type Note, noteId, noteName, parseNoteId, slotDescription, slotOf, slotSubject } from "@/lib/music/notes";
+import { LETTERS, LETTER_PT, NATURALS_PT, note, type Note, noteId, noteName, parseNoteId, slotDescription, slotOf, slotSubject } from "@/lib/music/notes";
 import { buildErrorReviewLine, buildReadingLine, LINE_SIZES, type LineSizeId } from "@/lib/study/generators/reading-line";
 import { useStudy } from "@/lib/study/provider";
 import { cn } from "@/lib/utils";
@@ -72,6 +73,8 @@ export function LineReadingPractice() {
   }
 
   const wrongNotes = corrected ? notes.filter((note, index) => answers[index] !== LETTER_PT[note.letter]) : [];
+  const firstWrong = corrected ? notes.findIndex((item, index) => answers[index] !== LETTER_PT[item.letter]) : -1;
+  const mistakenLetter = firstWrong >= 0 ? LETTERS[NATURALS_PT.indexOf(answers[firstWrong] ?? "")] : null;
   const percentage = stats.answered ? Math.round(stats.correct / stats.answered * 100) : 0;
   const frequent = Object.entries(stats.misses).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => parseNoteId(id)).filter((note): note is Note => note !== null).map((note) => noteName(note));
 
@@ -114,6 +117,7 @@ export function LineReadingPractice() {
             <div className={cn("rounded-lg border p-4", score === notes.length ? "border-sage/40 bg-sage-wash" : "border-clay/35 bg-clay-wash")}>
               <p className="display text-lg font-semibold">{score} de {notes.length} corretas — {Math.round(score / notes.length * 100)}%</p>
               {wrongNotes.length ? <div className="mt-3 grid gap-2 sm:grid-cols-2">{notes.map((note, i) => answers[i] !== LETTER_PT[note.letter] ? <div key={i} className="rounded-md bg-paper-raised/75 p-3 text-sm"><p><strong>Correto: {noteName(note)}</strong> <span className="text-ink-muted">(você marcou {answers[i]})</span></p><p className="mt-1 text-xs leading-relaxed text-ink-muted">A cabeça da nota está {slotDescription(slotOf(note))}. Em clave de sol, {slotSubject(slotOf(note))} é {noteName(note)}.</p></div> : null)}</div> : <p className="mt-1 text-sm text-sage">Linha inteira reconhecida.</p>}
+              {firstWrong >= 0 && mistakenLetter ? <details className="mt-4 border-t border-clay/20 pt-3"><summary className="cursor-pointer text-sm font-medium">Comparar minha resposta com a nota correta</summary><NoteCompare first={notes[firstWrong]} second={note(mistakenLetter, 0, notes[firstWrong].octave)} /></details> : null}
             </div>
           )}
 

@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { buildFocusedReview, earDifficultyResolved, auditoryDifficulties, deriveEarSessions } from '@/lib/ear/review';
+import { relativeOptionCount } from '@/lib/ear/training';
+import type { Attempt, ErrorItem } from '@/lib/storage/types';
+const error:ErrorItem={itemKey:'ear:step:E4:F4',module:'ouvido',prompt:'Mi → Fá',expected:'Semitom',misses:3,streak:0,lastMissTs:1,lastSeenTs:1};
+test('revisão focada deriva uma família sem repetir continuamente o erro',()=>{const session=buildFocusedReview({[error.itemKey]:error},5);assert.equal(session.length,5);assert.ok(new Set(session.map(item=>item.key)).size>=4);assert.ok(session.every(item=>item.skill==='step'));});
+test('dificuldade auditiva exige quatro acertos e pode reincidir',()=>{assert.equal(earDifficultyResolved(3),false);assert.equal(earDifficultyResolved(4),true);assert.deepEqual(auditoryDifficulties({[error.itemKey]:error}).map(item=>item.label),['Tom × Semitom']);});
+test('reconhecimento relativo amplia e reduz pela janela recente',()=>{const make=(correct:boolean,index:number):Attempt=>({id:String(index),ts:index,module:'ouvido',itemKey:'ear:relative-note:C4:E4',correct,given:'E4',expected:'E4'});assert.equal(relativeOptionCount(Array.from({length:12},(_,i)=>make(true,i))),7);assert.equal(relativeOptionCount(Array.from({length:12},(_,i)=>make(i<4,i))),3);});
+test('histórico agrupa tentativas próximas em sessões',()=>{const attempts:Attempt[]=[{id:'1',ts:1,module:'ouvido',itemKey:'ear:step:E4:F4',correct:true,given:'Semitom',expected:'Semitom'},{id:'2',ts:1000,module:'ouvido',itemKey:'ear:step:C4:D4',correct:false,given:'Semitom',expected:'Tom'},{id:'3',ts:2_000_000,module:'ouvido',itemKey:'ear:melody:C4:E4',correct:true,given:'Subiu',expected:'Subiu'}];const sessions=deriveEarSessions(attempts);assert.equal(sessions.length,2);assert.equal(sessions[0].accuracy,50);});

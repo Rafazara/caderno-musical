@@ -52,6 +52,9 @@ export function MaterialLibrary() {
       prev.map((i) => (i.id === id ? { ...i, notes, updatedAt: Date.now() } : i)),
     );
   }
+  function toggleConcept(id: string, concept: string) {
+    setItems((prev) => prev.map((item) => item.id === id ? { ...item, conceptRefs: item.conceptRefs?.includes(concept) ? item.conceptRefs.filter((value) => value !== concept) : [...(item.conceptRefs ?? []), concept], updatedAt: Date.now() } : item));
+  }
 
   function remove(id: string) {
     setItems((prev) => prev.filter((i) => i.id !== id));
@@ -103,6 +106,7 @@ export function MaterialLibrary() {
                 onOpen={() => setViewing(item)}
                 onDelete={() => setConfirmDelete(item)}
                 onNotesChange={(notes) => updateNotes(item.id, notes)}
+                onConcept={(concept) => toggleConcept(item.id, concept)}
               />
             ))}
           </div>
@@ -174,11 +178,13 @@ function MaterialCard({
   onOpen,
   onDelete,
   onNotesChange,
+  onConcept,
 }: {
   item: MaterialItem;
   onOpen: () => void;
   onDelete: () => void;
   onNotesChange: (notes: string) => void;
+  onConcept: (concept: string) => void;
 }) {
   // Rascunho local para o textarea não gravar no storage a cada tecla. O cartão
   // é a única origem de edição destas anotações, então o valor inicial basta —
@@ -234,6 +240,8 @@ function MaterialCard({
           </div>
 
           {item.subject ? <Badge tone="brass">{item.subject}</Badge> : null}
+
+          <div><p className="type-label text-ink-faint">Este material fala sobre</p><div className="mt-2 flex flex-wrap gap-1">{[["reading","Leitura de notas"],["intervals","Tom e semitom"],["scales","Escalas maiores"],["rhythm","Ritmo"],["chords","Acordes"],["triads","Tríades"],["major-chord","Acorde maior"],["minor-chord","Acorde menor"],["inversions","Inversões"],["chord-symbols","Cifras"]].map(([id,label])=><button key={id} type="button" aria-pressed={item.conceptRefs?.includes(id)} onClick={()=>onConcept(id)} className={`min-h-8 border px-2 text-xs ${item.conceptRefs?.includes(id)?"border-brass bg-brass-wash text-ink":"border-rule text-ink-muted"}`}>{label}</button>)}</div>{item.conceptRefs?.length?<div className="mt-3 flex flex-wrap gap-3 text-xs">{item.conceptRefs.includes('reading')?<a href="/leitura-de-notas" className="text-brass">Praticar leitura</a>:null}{item.conceptRefs.includes('intervals')?<a href="/tom-e-semitom" className="text-brass">Revisar intervalos</a>:null}{item.conceptRefs.includes('scales')?<a href="/escalas-maiores" className="text-brass">Estudar escalas</a>:null}{item.conceptRefs.includes('rhythm')?<a href="/ritmo" className="text-brass">Praticar ritmo</a>:null}{item.conceptRefs?.some(value=>["chords","triads","major-chord","minor-chord","inversions","chord-symbols"].includes(value))?<a href="/acordes" className="text-brass">Estudar acordes</a>:null}</div>:null}</div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-2">
             <label

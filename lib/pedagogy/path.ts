@@ -1,0 +1,22 @@
+export const STUDY_PATH = [
+  { id: "partitura", label: "Partitura", href: "/fundamentos/partitura" },
+  { id: "pentagrama", label: "Pentagrama", href: "/fundamentos/pentagrama" },
+  { id: "clave", label: "Clave de Sol", href: "/fundamentos/clave" },
+  { id: "leitura", label: "Leitura de notas", href: "/leitura-de-notas" },
+  { id: "intervalos", label: "Tom e semitom", href: "/tom-e-semitom" },
+  { id: "intervalos-musicais", label: "Intervalos", href: "/intervalos" },
+  { id: "acordes", label: "Acordes · tríades", href: "/acordes" },
+  { id: "harmonia", label: "Campo Harmônico · funções", href: "/campo-harmonico" },
+  { id: "ritmo", label: "Ritmo · eixo do tempo", href: "/ritmo" },
+  { id: "escala", label: "Escala", href: "/fundamentos/escala" },
+  { id: "escala-maior", label: "Escala maior", href: "/escalas-maiores" },
+  { id: "C", label: "Dó maior", href: "/escalas-maiores" },
+  { id: "G", label: "Sol maior", href: "/escalas-maiores" },
+  { id: "D", label: "Ré maior", href: "/escalas-maiores" },
+  { id: "F", label: "Fá maior", href: "/escalas-maiores" },
+  {
+    id: "ciclo",
+    label: "Ciclo de quintas · introdução",
+    href: "/fundamentos/ciclo-de-quintas",
+  },
+] as const;

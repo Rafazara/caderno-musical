@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { frequencyOf, scheduleNotes } from "@/lib/music/audio";
+import { note, semitonesBetween } from "@/lib/music/notes";
+import { decodeEar, direction, directionDistance, encodeEar, makeExercise } from "@/lib/ear/training";
+const close=(actual:number,expected:number,tolerance=.01)=>assert.ok(Math.abs(actual-expected)<=tolerance,`${actual} ≈ ${expected}`);
+test("frequências derivam de Lá4 = 440 Hz",()=>{close(frequencyOf(note('A')),440);close(frequencyOf(note('C')),261.626);close(frequencyOf(note('E')),329.628);close(frequencyOf(note('C',0,5)),523.251);});
+test("direção e semitons usam altura musical real",()=>{assert.equal(direction(note('C'),note('G')),'Mais aguda');assert.equal(direction(note('G'),note('C')),'Mais grave');assert.equal(direction(note('C'),note('C')),'Igual');assert.equal(semitonesBetween(note('E'),note('F')),1);});
+test("chave auditiva é reconstruível",()=>{const original=makeExercise('step',[note('E'),note('F')]);assert.equal(original.key,encodeEar('step',original.notes));assert.deepEqual(decodeEar(original.key),original);});
+test("scheduler mantém ordem e espaçamento",()=>{const scheduled=scheduleNotes([note('C'),note('D'),note('E')],.6,.8);assert.deepEqual(scheduled.map(item=>item.startTime),[0,.6,1.2]);assert.ok(scheduled.every(item=>item.duration===.8));});
+test("adaptação só reduz distâncias após evidência",()=>{assert.deepEqual(directionDistance([]),[4,5,7]);const attempts=Array.from({length:8},(_,i)=>({id:String(i),ts:i,module:'ouvido' as const,itemKey:'ear:pitch-direction:C4:G4',correct:true,given:'Mais aguda',expected:'Mais aguda'}));assert.deepEqual(directionDistance(attempts),[1,2]);});

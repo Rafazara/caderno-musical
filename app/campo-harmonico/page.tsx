@@ -1,0 +1,1 @@
+import type { Metadata } from "next";import { HarmonyStudio } from "./harmony-studio";export const metadata:Metadata={title:"Campo Harmônico Maior · Caderno Musical",description:"Derive acordes dos graus e compreenda funções tonais iniciais."};export default function Page(){return <HarmonyStudio/>;}

@@ -8,6 +8,7 @@ import { buttonClass } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/prose";
 import { findFundamental, FUNDAMENTALS } from "@/lib/content/fundamentals";
+import { FundamentalLesson } from "@/components/pedagogy/fundamental-lesson";
 
 export function generateStaticParams() {
   return FUNDAMENTALS.map((f) => ({ slug: f.slug }));
@@ -43,6 +44,8 @@ export default async function Page(props: PageProps<"/fundamentos/[slug]">) {
         </Link>
         <SectionHeading eyebrow="Fundamento" title={item.title} />
       </div>
+
+      <FundamentalLesson slug={slug} />
 
       {/* A definição em uma frase, antes de qualquer desenvolvimento. */}
       <div className="notebook-margin rounded-r-lg bg-brass-wash/60 py-4 pr-5 pl-5">

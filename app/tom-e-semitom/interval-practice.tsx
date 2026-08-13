@@ -10,6 +10,7 @@ import { INTERVAL_FACTS } from "@/lib/music/intervals";
 import { note } from "@/lib/music/notes";
 import { INTERVAL_SCOPES, type IntervalScopeId } from "@/lib/study/generators/intervals";
 import { useTrackTopic } from "@/lib/study/provider";
+import { IntervalLesson } from "@/components/pedagogy/interval-lesson";
 
 export function IntervalPractice() {
   useTrackTopic("/tom-e-semitom", "Tom e semitom");
@@ -26,6 +27,8 @@ export function IntervalPractice() {
         title="Tom e semitom"
         description="Medir a distância entre duas notas. O teclado aparece em cada correção porque é nele que a resposta fica visível: semitom é tecla vizinha, tom pula uma tecla."
       />
+
+      <IntervalLesson />
 
       {/* A ideia central, antes de qualquer exercício. */}
       <Card className="overflow-hidden">

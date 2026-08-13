@@ -14,6 +14,7 @@ import {
   type StudyState,
 } from "@/lib/storage/types";
 import { dayKey, daysBetween, uid } from "@/lib/utils";
+import { earDifficultyResolved } from "@/lib/ear/review";
 
 /** O que se sabe de uma resposta no momento em que ela é registrada. */
 export type RecordInput = {
@@ -63,7 +64,7 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
         if (input.correct) {
           if (existing) {
             const streak = existing.streak + 1;
-            if (streak >= MASTERY_STREAK) {
+            if (input.module === "ouvido" ? earDifficultyResolved(streak) : streak >= MASTERY_STREAK) {
               // Dominado de novo: sai da fila de revisão.
               delete errors[input.itemKey];
             } else {

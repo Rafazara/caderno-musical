@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { playNoteLine } from "@/lib/music/audio";
 import { noteName } from "@/lib/music/notes";
 import { buildMajorScale, DEGREE_NAME, DEGREE_ROMAN, explainDegree, keySignature, MAJOR_FORMULA, STEP_LABEL, type ScaleEntry } from "@/lib/music/scales";
+import { ScaleLesson } from "@/components/pedagogy/scale-lesson";
 
 /**
  * A "ficha" de uma escala: as notas na pauta, a fita com a fórmula e o motivo
@@ -43,6 +44,7 @@ export function ScaleSheet({ entry, practiced }: { entry: ScaleEntry; practiced?
       </CardHeader>
 
       <CardContent className="flex flex-col gap-5">
+        <ScaleLesson entry={entry} />
         <Staff
           notes={scale.map((n) => ({
             note: n,

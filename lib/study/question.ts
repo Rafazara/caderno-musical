@@ -28,6 +28,8 @@ export type Question = {
 export type QuestionVisual =
   | { kind: "note"; note: Note }
   | { kind: "interval"; pair: IntervalPair }
+  | { kind: "musicalInterval"; root: Note; target: Note }
+  | { kind: "chord"; notes: Note[] }
   | { kind: "scale"; slots: StripSlot[]; caption?: string }
   | { kind: "formula" }
   | { kind: "none" };

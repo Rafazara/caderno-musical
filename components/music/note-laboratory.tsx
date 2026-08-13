@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { ArrowLeft, ArrowRight, Speaker } from "lucide-react";
 import { Keyboard } from "@/components/music/keyboard";
 import { SingleNoteStaff } from "@/components/music/staff";
@@ -9,6 +10,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { playNote, frequencyOf } from "@/lib/music/audio";
 import { adjacentNatural, LETTER_PT, midiNumber, noteId, noteName, READING_RANGE, semitonesBetween, staffPosition, type Note } from "@/lib/music/notes";
 import { cn } from "@/lib/utils";
+import { GlossaryTerm } from "@/components/pedagogy/glossary-term";
+import { Deeper, TeachingBlock } from "@/components/pedagogy/blocks";
+import { buildMajorScale, DEGREE_NAME } from "@/lib/music/scales";
+import { note } from "@/lib/music/notes";
 
 export function NoteLaboratory() {
   const [selected, setSelected] = React.useState(2);
@@ -16,8 +21,11 @@ export function NoteLaboratory() {
   const previous = adjacentNatural(current, -1);
   const next = adjacentNatural(current, 1);
   const position = staffPosition(current);
+  const cMajor = buildMajorScale(note("C", 0, 4));
+  const degree = cMajor.findIndex((entry) => entry.letter === current.letter && entry.accidental === current.accidental);
 
   return <div className="flex flex-col gap-6">
+    <div className="flex justify-end gap-2"><Link href={`/acordes?root=${current.letter}&quality=major`} className="text-xs text-brass">Construir {noteName(current)} maior</Link><Link href={`/acordes?root=${current.letter}&quality=minor`} className="text-xs text-brass">Construir {noteName(current)} menor</Link></div>
     <div className="flex gap-2 overflow-x-auto pb-1" role="listbox" aria-label="Escolher nota">
       {READING_RANGE.map((note, index) => <button key={noteId(note)} role="option" aria-selected={index === selected} onClick={() => setSelected(index)} className={cn("min-h-10 shrink-0 rounded-md border px-3 text-sm font-medium transition-colors", index === selected ? "border-ink bg-ink text-paper" : "border-rule bg-transparent text-ink-muted hover:bg-paper-raised hover:text-ink")}>{noteName(note)}<span className="ml-0.5 text-[0.65rem] opacity-70">{note.octave}</span></button>)}
     </div>
@@ -41,8 +49,12 @@ export function NoteLaboratory() {
             <Fact label="Oitava" value={String(current.octave)} /><Fact label="MIDI" value={String(midiNumber(current))} />
             <Fact label="Frequência" value={`${frequencyOf(current).toFixed(2)} Hz`} /><Fact label="Na pauta" value={position.label} />
           </dl>
+          <TeachingBlock label="Como reconhecer">{noteName(current)}{current.octave} está na posição “{position.label}” da pauta em clave de Sol.</TeachingBlock>
           <div className="border-t border-rule pt-5"><p className="mb-3 text-[0.6875rem] font-semibold tracking-[.12em] text-ink-muted uppercase">A mesma nota no teclado</p><Keyboard marks={[{ note: current, tone: "a", badge: noteName(current) }]} markSemitoneGaps /></div>
           <div className="grid grid-cols-2 gap-3 border-t border-rule pt-5"><Relation label="Anterior" note={previous} semitones={semitonesBetween(previous, current)} /><Relation label="Próxima" note={next} semitones={semitonesBetween(current, next)} /></div>
+          {degree >= 0 ? <p className="text-sm text-ink-muted">Em Dó maior, {noteName(current)} é o <strong className="text-ink">{degree + 1}º <GlossaryTerm term="grau">grau</GlossaryTerm></strong>{DEGREE_NAME[degree] ? ` · ${DEGREE_NAME[degree]}` : ""}.</p> : null}
+          <Deeper><GlossaryTerm term="altura">Altura</GlossaryTerm>, frequência e MIDI descrevem a mesma nota em sistemas diferentes. A posição escrita preserva a grafia; o MIDI descreve a altura sonora numericamente.</Deeper>
+          <Link href={`/intervalos?raiz=${noteId(current)}`} className="inline-flex min-h-10 items-center justify-center border border-rule px-4 text-sm hover:border-brass">Ver intervalos a partir desta nota</Link>
         </CardContent>
       </div>
     </Card>

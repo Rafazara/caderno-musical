@@ -17,8 +17,14 @@ import { currentStreak, useStudy } from "@/lib/study/provider";
 import { overview, recentActivity, worstItems } from "@/lib/study/stats";
 import { cn, plural } from "@/lib/utils";
 import { NoteMastery } from "@/components/study/note-mastery";
+import { PedagogicalProgress } from "@/components/pedagogy/pedagogical-progress";
+import { EarProgress } from "@/components/pedagogy/ear-progress";
+import { IntervalProgress } from "@/components/pedagogy/interval-progress";
+import { RhythmProgress } from "@/components/pedagogy/rhythm-progress";
+import { ChordProgress } from "@/components/pedagogy/chord-progress";
+import { HarmonyProgress } from "@/components/pedagogy/harmony-progress";
 
-const MODULES: ModuleId[] = ["leitura", "escalas", "intervalos"];
+const MODULES: ModuleId[] = ["leitura", "escalas", "intervalos", "intervalos-musicais", "ouvido", "ritmo", "acordes", "harmonia"];
 
 export function ProgressView() {
   const { state, ready, resetProgress } = useStudy();
@@ -77,6 +83,13 @@ export function ProgressView() {
         title="Progresso"
         description="O que os seus exercícios mostram até agora. Serve para decidir o que praticar em seguida — não para cobrar meta."
       />
+
+      <PedagogicalProgress state={state} />
+      <EarProgress attempts={state.attempts} />
+      <IntervalProgress attempts={state.attempts} />
+      <RhythmProgress attempts={state.attempts} />
+      <ChordProgress attempts={state.attempts} />
+      <HarmonyProgress attempts={state.attempts} />
 
       {/* Números gerais */}
       <Card>

@@ -82,6 +82,10 @@ export function QuestionVisualView({
           </div>
         </div>
       );
+    case "musicalInterval":
+      return <div className={wrapper}><Staff notes={[{note:visual.root,label:noteName(visual.root),state:revealed?(correct?'correct':'wrong'):'query'},{note:visual.target,label:noteName(visual.target),state:revealed?(correct?'correct':'wrong'):'query'}]} className="max-w-[20rem]"/><div className="w-full max-w-[21rem]"><IntervalKeyboard first={visual.root} second={visual.target} tone={revealed?(correct?'correct':'wrong'):'a'} showGaps={revealed}/></div></div>;
+    case "chord":
+      return <div className={wrapper}><Staff notes={visual.notes.map((note)=>({note,label:noteName(note),state:revealed?(correct?'correct':'wrong'):'query'}))} minNotes={3} className="max-w-[22rem]"/></div>;
 
     case "scale":
       return (

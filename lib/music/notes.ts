@@ -120,7 +120,7 @@ export function parseNoteId(id: string): Note | null {
   const m = /^([A-G])(#{1,2}|b{1,2})?(-?\d)$/.exec(id);
   if (!m) return null;
   const [, letter, acc = "", octave] = m;
-  const accidental = (acc.startsWith("#") ? acc.length : -acc.length) as Accidental;
+  const accidental = (acc ? (acc.startsWith("#") ? acc.length : -acc.length) : 0) as Accidental;
   return { letter: letter as Letter, accidental, octave: Number(octave) };
 }
 

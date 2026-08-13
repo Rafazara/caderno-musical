@@ -4,6 +4,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { StudyProvider } from "@/lib/study/provider";
 import { AuthProvider } from "@/lib/auth/provider";
 import { CloudSyncProvider } from "@/lib/sync/provider";
+import { ThemeProvider, THEME_BOOTSTRAP } from "@/lib/theme/provider";
 import "./globals.css";
 
 /**
@@ -48,14 +49,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
+      <head><script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} /></head>
       <body className="min-h-full">
-        <AuthProvider>
+        <ThemeProvider><AuthProvider>
           <CloudSyncProvider>
             <StudyProvider>
               <AppShell>{children}</AppShell>
             </StudyProvider>
           </CloudSyncProvider>
-        </AuthProvider>
+        </AuthProvider></ThemeProvider>
       </body>
     </html>
   );

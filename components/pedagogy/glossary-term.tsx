@@ -1,0 +1,5 @@
+"use client";
+import * as React from "react";
+import Link from "next/link";
+import { glossaryEntry } from "@/lib/pedagogy/glossary";
+export function GlossaryTerm({term,children}:{term:string;children?:React.ReactNode}){const [open,setOpen]=React.useState(false);const entry=glossaryEntry(term);if(!entry)return <>{children??term}</>;return <span className="relative inline-block"><button type="button" aria-expanded={open} onClick={()=>setOpen(v=>!v)} onBlur={()=>window.setTimeout(()=>setOpen(false),150)} className="border-b border-dotted border-brass text-inherit">{children??term}</button>{open?<span role="tooltip" className="absolute left-0 top-full z-40 mt-2 block w-64 rounded-md border border-rule bg-paper-raised p-3 text-left text-xs leading-5 text-ink-soft shadow-lift"><strong className="display block text-sm text-ink">{entry.term}</strong><span className="mt-1 block">{entry.definition}</span>{entry.fundamental?<Link href={`/fundamentos/${entry.fundamental}`} className="mt-2 block text-brass">Ver em Fundamentos →</Link>:null}</span>:null}</span>;}

@@ -8,6 +8,7 @@
  */
 
 import {
+  type Accidental,
   LETTERS,
   type Letter,
   LETTER_PT,
@@ -15,7 +16,29 @@ import {
   noteName,
   pitch,
   note,
+  step,
 } from "./notes";
+
+export type MusicalIntervalId="P1"|"m2"|"M2"|"m3"|"M3"|"P4"|"P5"|"P8";
+export type IntervalQuality="perfect"|"minor"|"major";
+export type IntervalDirection="ascending"|"descending";
+export type MusicalIntervalDefinition={id:MusicalIntervalId;number:number;quality:IntervalQuality;semitones:number;name:string;shortName:string};
+export const MUSICAL_INTERVALS:MusicalIntervalDefinition[]=[
+  {id:'P1',number:1,quality:'perfect',semitones:0,name:'uníssono justo',shortName:'U.J.'},
+  {id:'m2',number:2,quality:'minor',semitones:1,name:'segunda menor',shortName:'2ª m'},
+  {id:'M2',number:2,quality:'major',semitones:2,name:'segunda maior',shortName:'2ª M'},
+  {id:'m3',number:3,quality:'minor',semitones:3,name:'terça menor',shortName:'3ª m'},
+  {id:'M3',number:3,quality:'major',semitones:4,name:'terça maior',shortName:'3ª M'},
+  {id:'P4',number:4,quality:'perfect',semitones:5,name:'quarta justa',shortName:'4ª J'},
+  {id:'P5',number:5,quality:'perfect',semitones:7,name:'quinta justa',shortName:'5ª J'},
+  {id:'P8',number:8,quality:'perfect',semitones:12,name:'oitava justa',shortName:'8ª J'},
+];
+export type MusicalInterval={root:Note;target:Note;direction:IntervalDirection;number:number;quality:IntervalQuality;semitones:number;name:string;shortName:string;definition:MusicalIntervalDefinition};
+export function intervalNumber(a:Note,b:Note){return Math.abs(step(b)-step(a))+1;}
+export function analyzeInterval(root:Note,target:Note):MusicalInterval|null{const number=intervalNumber(root,target);const semitones=Math.abs(pitch(target)-pitch(root));const definition=MUSICAL_INTERVALS.find(item=>item.number===number&&item.semitones===semitones);if(!definition)return null;return{root,target,direction:pitch(target)>=pitch(root)?'ascending':'descending',number,quality:definition.quality,semitones,name:definition.name,shortName:definition.shortName,definition};}
+export function constructInterval(root:Note,id:MusicalIntervalId,direction:IntervalDirection='ascending'):Note{const definition=MUSICAL_INTERVALS.find(item=>item.id===id)!;const sign=direction==='ascending'?1:-1;const targetStep=step(root)+sign*(definition.number-1);const letter=LETTERS[((targetStep%7)+7)%7];const octave=4+Math.floor(targetStep/7);const natural=note(letter,0,octave);const desired=pitch(root)+sign*definition.semitones;const accidental=(desired-pitch(natural)) as Accidental;if(accidental < -2 || accidental > 2)throw new Error('Grafia exige acidente fora do escopo atual.');return note(letter,accidental,octave);}
+export function intervalDefinition(id:string){return MUSICAL_INTERVALS.find(item=>item.id===id);}
+export function countIntervalLetters(root:Note,target:Note){const sign=step(target)>=step(root)?1:-1;return Array.from({length:intervalNumber(root,target)},(_,index)=>{const value=step(root)+index*sign;return LETTER_PT[LETTERS[((value%7)+7)%7]];});}
 
 export type IntervalKind = "semitom" | "tom" | "outro";
 

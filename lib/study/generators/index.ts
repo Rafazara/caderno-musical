@@ -3,6 +3,11 @@ import type { Question, Rehydrator } from "@/lib/study/question";
 import { rehydrateReading } from "./reading";
 import { rehydrateScale } from "./scales";
 import { rehydrateInterval } from "./intervals";
+import { rehydrateEar } from "./ear";
+import { rehydrateMusicalInterval } from "./musical-intervals";
+import { rehydrateRhythm } from "./rhythm";
+import { rehydrateChord } from "./chords";
+import { rehydrateHarmony } from "./harmony";
 
 /**
  * Reconstrói questões a partir da chave persistida.
@@ -15,6 +20,11 @@ export const REHYDRATORS: Record<ModuleId, Rehydrator> = {
   leitura: rehydrateReading,
   escalas: rehydrateScale,
   intervalos: rehydrateInterval,
+  ouvido: rehydrateEar,
+  "intervalos-musicais": rehydrateMusicalInterval,
+  ritmo: rehydrateRhythm,
+  acordes: rehydrateChord,
+  harmonia: rehydrateHarmony,
 };
 
 export function rehydrate(module: ModuleId, key: string): Question | null {

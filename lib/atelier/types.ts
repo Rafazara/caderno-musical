@@ -7,7 +7,8 @@ type ElementBase = { id: string; x: number; y: number; width: number; height: nu
 export type StaffElement = ElementBase & { type: "staff"; notes: Array<{ id?: string; note: Note; x: number }> };
 export type TextElement = ElementBase & { type: "text"; text: string; style: "title" | "body" | "label" };
 export type ShapeElement = ElementBase & { type: "rectangle" | "circle" };
-export type ArrowElement = ElementBase & { type: "arrow" };
+/** Pontas normalizadas preservam setas V1.1 e permitem manipulação livre. */
+export type ArrowElement = ElementBase & { type: "arrow"; start?: Point; end?: Point };
 export type CardElement = ElementBase & { type: "card"; preset: TeachingCardId };
 export type AtelierElement = StaffElement | TextElement | ShapeElement | ArrowElement | CardElement;
 
@@ -18,6 +19,8 @@ export const TEACHING_CARDS = {
   natural: { title: "Semitons naturais", body: "Mi ↔ Fá  ·  Si ↔ Dó" },
   treble: { title: "Clave de Sol", body: "A segunda linha representa Sol." },
   degrees: { title: "Graus da escala", body: "I · II · III · IV · V · VI · VII · I" },
+  question: { title: "Dúvida para a próxima aula", body: "O que ainda preciso perguntar?" },
+  teacher: { title: "Exemplo da professora", body: "Reconstrua aqui o exemplo da aula." },
 } as const;
 export type TeachingCardId = keyof typeof TEACHING_CARDS;
 

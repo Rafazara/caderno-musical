@@ -15,7 +15,7 @@ import { useStudy, useTrackTopic } from "@/lib/study/provider";
 import type { Question } from "@/lib/study/question";
 import { formatRelative, plural, shuffle } from "@/lib/utils";
 
-const MODULES: ModuleId[] = ["leitura", "escalas", "intervalos"];
+const MODULES: ModuleId[] = ["leitura", "escalas", "intervalos", "intervalos-musicais", "ouvido", "ritmo", "acordes", "harmonia"];
 const REVIEW_SIZE = 10;
 
 export function ReviewStudio() {
@@ -107,7 +107,9 @@ export function ReviewStudio() {
             label="Revisar por tipo"
           />
 
-          {filtered.length === 0 ? (
+          {scope === "ouvido" ? (
+            <Callout title="Revisão auditiva" tone="brass">Para preservar o som antes da resposta, suas dificuldades são reconstruídas em famílias relacionadas dentro do ambiente de escuta. <Link href="/ouvido-musical#minhas-dificuldades" className="font-semibold underline">Praticar somente minhas dificuldades auditivas</Link>.</Callout>
+          ) : filtered.length === 0 ? (
             <Callout title="Nenhum erro neste assunto" tone="sage">
               Escolha outro tipo acima, ou faça uma sessão nova.
             </Callout>

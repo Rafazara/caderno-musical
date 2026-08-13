@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Callout, SectionHeading } from "@/components/ui/prose";
 import { FUNDAMENTALS } from "@/lib/content/fundamentals";
 import { SCALES } from "@/lib/music/scales";
+import { StudyPath } from "@/components/pedagogy/study-path";
 
 export const metadata: Metadata = {
   title: "Fundamentos",
@@ -21,6 +22,7 @@ export default function Page() {
         title="Fundamentos"
         description="Os conceitos que sustentam tudo o resto, explicados de forma curta e com apoio visual. Feito para consulta rápida — volte quantas vezes precisar."
       />
+      <StudyPath />
 
       {/* Índice de tópicos */}
       <div className="grid gap-3 sm:grid-cols-2">

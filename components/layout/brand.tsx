@@ -12,9 +12,9 @@ export function BrandMark({ className }: { className?: string }) {
   </svg>;
 }
 
-export function Brand({ className }: { className?: string }) {
+export function Brand({ className, compact = false }: { className?: string; compact?: boolean }) {
   return <Link href="/" className={cn("group flex items-center gap-2.5", className)} aria-label="Caderno Musical — ir para o início">
     <BrandMark className="text-ink transition-opacity group-hover:opacity-70" />
-    <span className="min-w-0"><span className="display block text-[.9375rem] leading-tight font-semibold text-ink">Caderno Musical</span><span className="block text-[.625rem] leading-tight tracking-[.12em] text-ink-faint uppercase">Teoria · Volume I</span></span>
+    {compact ? null : <span className="min-w-0"><span className="display block text-[.9375rem] leading-tight font-semibold text-ink">Caderno Musical</span><span className="block text-[.625rem] leading-tight tracking-[.12em] text-ink-faint uppercase">Teoria · Volume I</span></span>}
   </Link>;
 }

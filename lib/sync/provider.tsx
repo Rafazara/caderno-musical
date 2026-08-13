@@ -20,7 +20,7 @@ const BUCKET = "study-materials";
 
 type RemoteNote = { id: string; title: string; subject: string; body: string; tags: string[]; links: string[]; pinned: boolean; created_at: string; updated_at: string };
 type RemoteBoard = { id: string; title: string; content: AtelierBoard["elements"]; created_at: string; updated_at: string };
-type RemoteMaterial = { id: string; title: string; subject: string; notes: string; study_date: string; storage_path: string; file_name: string; mime_type: string; size_bytes: number; created_at: string; updated_at: string };
+type RemoteMaterial = { id: string; title: string; subject: string; notes: string; study_date: string; storage_path: string; file_name: string; mime_type: string; size_bytes: number; concept_refs?: string[]; created_at: string; updated_at: string };
 type RemoteStudy = { content: StudyState; updated_at: string };
 type RemoteEvent = { content: StudyEvent; updated_at: string };
 
@@ -65,13 +65,13 @@ async function pullAll(client: SupabaseClient, userId: string) {
     expect(client.from("study_states").select("content,updated_at").eq("user_id", userId)),
     expect(client.from("notebook_notes").select("id,title,subject,body,tags,links,pinned,created_at,updated_at").eq("user_id", userId)),
     expect(client.from("atelier_boards").select("id,title,content,created_at,updated_at").eq("user_id", userId)),
-    expect(client.from("study_materials").select("id,title,subject,notes,study_date,storage_path,file_name,mime_type,size_bytes,created_at,updated_at").eq("user_id", userId)),
+    expect(client.from("study_materials").select("id,title,subject,notes,study_date,storage_path,file_name,mime_type,size_bytes,concept_refs,created_at,updated_at").eq("user_id", userId)),
     expect(client.from("study_events").select("content,updated_at").eq("user_id", userId)),
   ]);
   const materials = await Promise.all((materialRows as RemoteMaterial[]).map(async (row) => {
     const blob = await expect(client.storage.from(BUCKET).download(row.storage_path));
     if (!blob) throw new Error(`Arquivo remoto ausente: ${row.file_name}`);
-    return { id: row.id, title: row.title, subject: row.subject, date: row.study_date, notes: row.notes, fileName: row.file_name, fileType: row.mime_type, fileSize: Number(row.size_bytes), dataUrl: await blobToDataUrl(blob), createdAt: time(row.created_at), updatedAt: time(row.updated_at) } satisfies MaterialItem;
+    return { id: row.id, title: row.title, subject: row.subject, date: row.study_date, notes: row.notes, fileName: row.file_name, fileType: row.mime_type, fileSize: Number(row.size_bytes), dataUrl: await blobToDataUrl(blob), conceptRefs: row.concept_refs ?? [], createdAt: time(row.created_at), updatedAt: time(row.updated_at) } satisfies MaterialItem;
   }));
   return {
     study: (studyRows as RemoteStudy[])[0] ?? null,
@@ -107,7 +107,7 @@ async function pushAll(client: SupabaseClient, userId: string) {
       const blob = await dataUrlToBlob(item.dataUrl);
       await expect(client.storage.from(BUCKET).upload(path, blob, { contentType: item.fileType, upsert: true }));
     }
-    await expect(client.from("study_materials").upsert({ id: item.id, user_id: userId, title: item.title, subject: item.subject, notes: item.notes, study_date: item.date, storage_path: path, file_name: item.fileName, mime_type: item.fileType, size_bytes: item.fileSize, created_at: iso(item.createdAt), updated_at: iso(item.updatedAt ?? item.createdAt) }));
+    await expect(client.from("study_materials").upsert({ id: item.id, user_id: userId, title: item.title, subject: item.subject, notes: item.notes, study_date: item.date, storage_path: path, file_name: item.fileName, mime_type: item.fileType, size_bytes: item.fileSize, concept_refs: item.conceptRefs ?? [], created_at: iso(item.createdAt), updated_at: iso(item.updatedAt ?? item.createdAt) }));
   }
 }
 
@@ -214,12 +214,16 @@ export function CloudSyncProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (!user) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    return subscribe(() => {
+    const unsubscribe = subscribe(() => {
       if (!initialized.current || applying.current) return;
       setStatus("syncing");
       clearTimeout(timer);
       timer = setTimeout(() => void synchronize(), 1200);
     });
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
   }, [synchronize, user]);
 
   async function migrate() {

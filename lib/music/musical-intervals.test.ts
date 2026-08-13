@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { analyzeInterval, constructInterval, intervalNumber } from '@/lib/music/intervals';
+import { intervalSchedule } from '@/lib/music/audio';
+import { note, noteId } from '@/lib/music/notes';
+const cases=[['Db','m2',note('D',-1)],['D','M2',note('D')],['Eb','m3',note('E',-1)],['E','M3',note('E')],['F','P4',note('F')],['G','P5',note('G')],['C5','P8',note('C',0,5)]] as const;
+test('intervalos principais respeitam número e semitons',()=>{for(const[,expected,target]of cases)assert.equal(analyzeInterval(note('C'),target)?.definition.id,expected);});
+test('grafia diferencia enarmonia diatônica',()=>{assert.equal(analyzeInterval(note('C'),note('E',-1))?.definition.id,'m3');assert.equal(analyzeInterval(note('C'),note('D',1)),null);assert.equal(intervalNumber(note('C'),note('D',1)),2);});
+test('construção preserva a letra-alvo',()=>{assert.equal(noteId(constructInterval(note('C'),'m3')),'Eb4');assert.equal(noteId(constructInterval(note('C',0,5),'M3','descending')),'Ab4');});
+test('direção descendente não altera a classe',()=>{const analyzed=analyzeInterval(note('E'),note('C'));assert.equal(analyzed?.definition.id,'M3');assert.equal(analyzed?.direction,'descending');});
+test('playback harmônico agenda simultaneamente com ganho reduzido',()=>{const root=note('C'),target=note('G');const tones=intervalSchedule({root,target,semitoneDistance:7,direction:'ascending',playbackMode:'harmonic'});assert.deepEqual(tones.map(item=>item.startTime),[0,0]);assert.ok(tones.every(item=>(item.gain??1)<1));});

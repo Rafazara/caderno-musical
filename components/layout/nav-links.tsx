@@ -12,7 +12,7 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+export function NavLinks({ onNavigate, compact = false }: { onNavigate?: () => void; compact?: boolean }) {
   const pathname = usePathname();
   const { state, ready } = useStudy();
   const pendingErrors = ready ? Object.keys(state.errors).length : 0;
@@ -21,7 +21,7 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
     <nav className="flex flex-col gap-8">
       {NAV.map((group, gi) => (
         <div key={gi}>
-          {group.title ? (
+          {group.title && !compact ? (
             <p className="mb-3 px-3 text-[0.575rem] font-semibold tracking-[0.16em] text-ink-faint uppercase">
               {group.title}
             </p>
@@ -38,8 +38,11 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     href={item.href}
                     onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
+                    aria-label={compact ? item.label : undefined}
+                    title={compact ? item.label : undefined}
                     className={cn(
                       "group relative flex min-h-9 items-center gap-2.5 px-3 py-1.5",
+                      compact && "justify-center px-0",
                       "text-[0.8125rem] transition-colors duration-150",
                       active
                         ? "font-semibold text-ink"
@@ -60,8 +63,8 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                         active ? "text-ink-soft" : "text-ink-faint group-hover:text-ink-muted",
                       )}
                     />
-                    <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                    {showBadge ? (
+                    {compact ? null : <span className="min-w-0 flex-1 truncate">{item.label}</span>}
+                    {showBadge && !compact ? (
                       <span className="tabular flex h-5 min-w-5 items-center justify-center rounded-full bg-clay px-1.5 text-[0.6875rem] font-semibold text-white">
                         {pendingErrors}
                       </span>

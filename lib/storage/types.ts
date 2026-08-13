@@ -1,17 +1,27 @@
 /** Formas persistidas em localStorage. Mudanças aqui exigem bump de STORE_VERSION. */
 
-export type ModuleId = "leitura" | "escalas" | "intervalos";
+export type ModuleId = "leitura" | "escalas" | "intervalos" | "ouvido" | "intervalos-musicais" | "ritmo" | "acordes" | "harmonia";
 
 export const MODULE_LABEL: Record<ModuleId, string> = {
   leitura: "Leitura de notas",
   escalas: "Escalas maiores",
   intervalos: "Tom e semitom",
+  ouvido: "Ouvido Musical",
+  "intervalos-musicais": "Intervalos",
+  ritmo: "Ritmo",
+  acordes: "Acordes",
+  harmonia: "Campo Harmônico",
 };
 
 export const MODULE_HREF: Record<ModuleId, string> = {
   leitura: "/leitura-de-notas",
   escalas: "/escalas-maiores",
   intervalos: "/tom-e-semitom",
+  ouvido: "/ouvido-musical",
+  "intervalos-musicais": "/intervalos",
+  ritmo: "/ritmo",
+  acordes: "/acordes",
+  harmonia: "/campo-harmonico",
 };
 
 /** Uma resposta dada. É o registro bruto de onde todo o progresso é derivado. */
@@ -111,4 +121,6 @@ export type MaterialItem = {
   createdAt: number;
   /** Ausente em registros antigos; nesse caso `createdAt` é o fallback. */
   updatedAt?: number;
+  /** Referências pedagógicas; conteúdo estático continua no código. */
+  conceptRefs?: string[];
 };

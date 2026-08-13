@@ -1,0 +1,7 @@
+"use client";
+import { CommonMistake, Connection, Deeper, Memory, TeachingBlock } from "./blocks";
+import { ProfessorActions } from "./professor-actions";
+import { majorScaleConcept, whyAltered } from "@/lib/pedagogy/concepts";
+import { MAJOR_FORMULA, type ScaleEntry } from "@/lib/music/scales";
+
+export function ScaleLesson({entry}:{entry:ScaleEntry}) { const concept=majorScaleConcept(entry);const steps=whyAltered(entry);return <section className="flex flex-col gap-6 border-y border-rule py-6"><div><p className="type-label text-brass">Professor Mode · Entenda</p><h3 className="display mt-2 text-2xl font-semibold">Por que {entry.label} tem essas notas?</h3><p className="mt-3 text-sm leading-7 text-ink-soft">{concept.essential}</p></div><TeachingBlock label="Construção passo a passo"><ol className="grid gap-1 sm:grid-cols-2">{steps.map(step=><li key={step} className="type-technical text-xs">{step}</li>)}</ol></TeachingBlock><TeachingBlock label="Observe">{concept.observe}</TeachingBlock>{concept.commonMistake?<CommonMistake {...concept.commonMistake}/>:null}<Memory items={[MAJOR_FORMULA.map(s=>s==='S'?'ST':'T').join('–')]}/><Connection>{concept.connection}</Connection><Deeper>{concept.deeper}</Deeper><ProfessorActions title={entry.label} question={`Por que ${entry.label} precisa das alterações que aparecem na escala?`} noteBody={`Regra: ${MAJOR_FORMULA.map(s=>s==='S'?'ST':'T').join('–')}\nNotas: ${concept.essential}`} scaleId={entry.id}/></section>; }
