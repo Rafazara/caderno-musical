@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Flame, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Flame, RotateCcw, Sparkles } from "lucide-react";
 import { StatTile } from "@/components/home/stat-tile";
 import { Badge } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
@@ -58,6 +58,14 @@ export function HomeView() {
             : "Este é o seu caderno de teoria musical. Comece pela leitura de notas ou pelos fundamentos — o progresso fica salvo neste navegador."}
         </p>
       </header>
+
+      <section className="relative overflow-hidden rounded-xl border border-brass-soft/35 bg-brass-wash px-5 py-5 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:px-7">
+        <div className="flex gap-3.5">
+          <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-paper-raised text-brass shadow-page"><Clock3 className="size-4" /></span>
+          <div><p className="display text-lg font-semibold text-ink">{state.activeStudySession ? "Sua sessão está esperando" : "Estudar agora"}</p><p className="mt-1 max-w-xl text-sm leading-relaxed text-ink-muted">{state.activeStudySession ? `Continue no bloco ${state.activeStudySession.currentIndex + 1} de ${state.activeStudySession.blocks.length}, sem perder o roteiro.` : "Escolha o tempo disponível e receba um roteiro claro a partir da sua agenda, revisões e percurso."}</p></div>
+        </div>
+        <Link href="/sessao-de-estudo" className={buttonClass({ variant: "brass", size: "lg", className: "mt-4 sm:mt-0" })}>{state.activeStudySession ? "Continuar sessão" : "Montar sessão"}<ArrowRight /></Link>
+      </section>
 
       <NextLesson />
 

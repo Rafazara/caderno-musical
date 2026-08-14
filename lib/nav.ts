@@ -13,6 +13,7 @@ import {
   NotebookPen,
   RotateCcw,
   CalendarDays,
+  TimerReset,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,6 +42,12 @@ export const NAV: NavGroup[] = [
   {
     title: "Aprender & praticar",
     items: [
+      {
+        href: "/sessao-de-estudo",
+        label: "Sessão de estudo",
+        blurb: "Organizar e conduzir o estudo com um plano claro e adaptável.",
+        icon: TimerReset,
+      },
       {
         href: "/leitura-de-notas",
         label: "Leitura de notas",

@@ -44,7 +44,10 @@ export function ProgressView() {
   );
 
   const maxDay = Math.max(1, ...activity.map((d) => d.total));
-  const hasHistory = stats.overall.total > 0;
+  const sessions = state.studySessions ?? [];
+  const hasHistory = stats.overall.total > 0 || sessions.length > 0;
+  const sessionMinutes = sessions.reduce((sum, session) => sum + session.studiedMinutes, 0);
+  const sessionDays = new Set(sessions.map((session) => new Date(session.startedAt).toLocaleDateString("en-CA"))).size;
 
   if (!ready) {
     return (
@@ -83,6 +86,8 @@ export function ProgressView() {
         title="Progresso"
         description="O que os seus exercícios mostram até agora. Serve para decidir o que praticar em seguida — não para cobrar meta."
       />
+
+      {sessions.length ? <Card><CardHeader><CardTitle className="text-base">Sessões de estudo</CardTitle><p className="mt-1 text-sm text-ink-muted">Tempo dedicado e frequência, sem metas artificiais.</p></CardHeader><CardContent className="grid grid-cols-3 gap-5"><StatTile label="Sessões" value={sessions.length} /><StatTile label="Tempo" value={sessionMinutes} suffix=" min" /><StatTile label="Dias" value={sessionDays} /></CardContent></Card> : null}
 
       <PedagogicalProgress state={state} />
       <EarProgress attempts={state.attempts} />

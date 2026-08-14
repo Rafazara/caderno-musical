@@ -41,6 +41,16 @@
 
   --shadow-page: 0 1px 2px rgb(39 37 33 / 0.035);
   --shadow-lift: 0 8px 28px -18px rgb(39 37 33 / 0.24), 0 1px 2px rgb(39 37 33 / 0.05);
+  --atelier-paper: #f5f6f4;
+  --atelier-panel: #fbfcfbf2;
+  --atelier-soft: #e9eeec;
+  --atelier-grid: #dce2df;
+  --atelier-border: #cbd3d0;
+  --atelier-ink: #27312f;
+  --atelier-staff: #3e4b48;
+  --atelier-line: #526762;
+  --atelier-accent: #426b72;
+  --atelier-selection: #3d7885;
 }
 
 :root[data-theme="dark"] {
@@ -69,6 +79,16 @@
 
     --shadow-page: 0 1px 2px rgb(0 0 0 / 0.18);
     --shadow-lift: 0 12px 32px -20px rgb(0 0 0 / 0.62);
+    --atelier-paper: #1c2222;
+    --atelier-panel: #252d2df2;
+    --atelier-soft: #303b39;
+    --atelier-grid: #303b3a;
+    --atelier-border: #465553;
+    --atelier-ink: #e4ebe8;
+    --atelier-staff: #c7d1cd;
+    --atelier-line: #a1b5af;
+    --atelier-accent: #83b2bd;
+    --atelier-selection: #79becd;
 }
 
 @theme inline {
@@ -185,11 +205,15 @@ body {
 /* Papel do Ateliê: grade de construção quase imperceptível, sem simular uma
    ferramenta técnica. Ajuda a alinhar explicações mantendo o caráter editorial. */
 .atelier-canvas {
+  background-color: var(--atelier-paper);
   background-image:
-    linear-gradient(color-mix(in oklab, var(--rule) 34%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--rule) 34%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--atelier-grid) 48%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--atelier-grid) 48%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+.atelier-selection { outline: 2px solid var(--atelier-selection); outline-offset: 3px; }
+.atelier-handle { border: 2px solid var(--atelier-selection); background: var(--atelier-panel); box-shadow: 0 1px 4px rgb(0 0 0 / .18); }
+.atelier-marquee { border: 1px solid var(--atelier-selection); background: color-mix(in oklab, var(--atelier-selection) 12%, transparent); }
 
 /* --------------------------------------------------------------------------
    Animações — curtas e discretas

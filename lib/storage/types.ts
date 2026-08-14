@@ -64,6 +64,10 @@ export type StudyState = {
   lastTopic: { href: string; label: string; ts: number } | null;
   /** Ids de escalas já praticadas. */
   scalesPracticed: string[];
+  /** Sessão guiada em andamento. Opcional para manter compatibilidade com dados V1.11. */
+  activeStudySession?: import("@/lib/study-planner/types").ActiveStudySession | null;
+  /** Histórico enxuto de sessões concluídas, sincronizado no mesmo documento de estudo. */
+  studySessions?: import("@/lib/study-planner/types").StudySessionRecord[];
 };
 
 export const emptyStudyState = (): StudyState => ({

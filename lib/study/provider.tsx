@@ -39,6 +39,7 @@ type StudyContextValue = {
   /** Remove um item da lista de revisão manualmente. */
   forgetError: (itemKey: string) => void;
   resetProgress: () => void;
+  updateState: (updater: (state: StudyState) => StudyState) => void;
 };
 
 const StudyContext = React.createContext<StudyContextValue | null>(null);
@@ -144,6 +145,7 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
   );
 
   const resetProgress = React.useCallback(() => set(emptyStudyState()), [set]);
+  const updateState = React.useCallback((updater: (state: StudyState) => StudyState) => set(updater), [set]);
 
   const contextValue = React.useMemo<StudyContextValue>(
     () => ({
@@ -155,8 +157,9 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
       setLastTopic,
       forgetError,
       resetProgress,
+      updateState,
     }),
-    [value, ready, error, record, markScalePracticed, setLastTopic, forgetError, resetProgress],
+    [value, ready, error, record, markScalePracticed, setLastTopic, forgetError, resetProgress, updateState],
   );
 
   return <StudyContext.Provider value={contextValue}>{children}</StudyContext.Provider>;

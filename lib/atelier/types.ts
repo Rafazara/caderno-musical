@@ -1,26 +1,89 @@
 import type { Note } from "@/lib/music/notes";
 
 export type Point = { x: number; y: number };
-export type AtelierTool = "select" | "pan" | "text" | "staff" | "note" | "arrow" | "rectangle" | "circle";
+export type AtelierTool =
+  | "select"
+  | "pan"
+  | "text"
+  | "staff"
+  | "note"
+  | "arrow"
+  | "line"
+  | "rectangle"
+  | "circle"
+  | "card";
 
-type ElementBase = { id: string; x: number; y: number; width: number; height: number };
-export type StaffElement = ElementBase & { type: "staff"; notes: Array<{ id?: string; note: Note; x: number }> };
-export type TextElement = ElementBase & { type: "text"; text: string; style: "title" | "body" | "label" };
-export type ShapeElement = ElementBase & { type: "rectangle" | "circle" };
+type ElementBase = {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+export type StaffElement = ElementBase & {
+  type: "staff";
+  notes: Array<{ id?: string; note: Note; x: number }>;
+  clef?: "treble" | "bass";
+  spacing?: number;
+  showLedger?: boolean;
+};
+export type TextElement = ElementBase & {
+  type: "text";
+  text: string;
+  style: "title" | "body" | "label";
+  align?: "left" | "center" | "right";
+};
+export type ShapeElement = ElementBase & {
+  type: "rectangle" | "circle";
+  strokeWidth?: 1 | 2;
+  fill?: "none" | "soft";
+};
 /** Pontas normalizadas preservam setas V1.1 e permitem manipulação livre. */
-export type ArrowElement = ElementBase & { type: "arrow"; start?: Point; end?: Point };
-export type CardElement = ElementBase & { type: "card"; preset: TeachingCardId };
-export type AtelierElement = StaffElement | TextElement | ShapeElement | ArrowElement | CardElement;
+export type ArrowElement = ElementBase & {
+  type: "arrow" | "line";
+  start?: Point;
+  end?: Point;
+  strokeWidth?: 1 | 2;
+  arrowhead?: boolean;
+};
+export type CardElement = ElementBase & {
+  type: "card";
+  preset: TeachingCardId;
+};
+export type AtelierElement =
+  | StaffElement
+  | TextElement
+  | ShapeElement
+  | ArrowElement
+  | CardElement;
 
-export type AtelierBoard = { id: string; title: string; elements: AtelierElement[]; createdAt: number; updatedAt: number };
+export type AtelierBoard = {
+  id: string;
+  title: string;
+  elements: AtelierElement[];
+  createdAt: number;
+  updatedAt: number;
+};
 
 export const TEACHING_CARDS = {
-  major: { title: "Regra da escala maior", body: "T · T · ST · T · T · T · ST" },
+  major: {
+    title: "Regra da escala maior",
+    body: "T · T · ST · T · T · T · ST",
+  },
   natural: { title: "Semitons naturais", body: "Mi ↔ Fá  ·  Si ↔ Dó" },
   treble: { title: "Clave de Sol", body: "A segunda linha representa Sol." },
-  degrees: { title: "Graus da escala", body: "I · II · III · IV · V · VI · VII · I" },
-  question: { title: "Dúvida para a próxima aula", body: "O que ainda preciso perguntar?" },
-  teacher: { title: "Exemplo da professora", body: "Reconstrua aqui o exemplo da aula." },
+  degrees: {
+    title: "Graus da escala",
+    body: "I · II · III · IV · V · VI · VII · I",
+  },
+  question: {
+    title: "Dúvida para a próxima aula",
+    body: "O que ainda preciso perguntar?",
+  },
+  teacher: {
+    title: "Exemplo da professora",
+    body: "Reconstrua aqui o exemplo da aula.",
+  },
 } as const;
 export type TeachingCardId = keyof typeof TEACHING_CARDS;
 
